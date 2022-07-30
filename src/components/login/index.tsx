@@ -45,7 +45,6 @@ export const Login = () => {
     <form onSubmit={handleSubmit(loginFormHandler)}>
       <div>
         <div>
-          {' '}
           <span>Usuário</span>
           <input type="text" {...register('username')} />
           <span>{errors.username?.message || ''}</span>
