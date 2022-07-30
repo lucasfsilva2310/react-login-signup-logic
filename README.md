@@ -1,46 +1,24 @@
-# Getting Started with Create React App
+# Instruções para rodar o App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Rode o comando **yarn server** para iniciar o servidor articial. Ele ficará disponível na porta 3004.
+2. Roda o comando **yarn start** para iniciar o App.
 
-## Available Scripts
+## Telas
 
-In the project directory, you can run:
+### Login
 
-### `npm start`
+1. Ao preencher o usuário e senha e clicar em entrar, você terá duas possíveis saídas:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   1. Se o usuário não for encontrado, nada vai acontecer.
+   2. Se o usuário for encontrado, você receberá a mensagem "Usuário encontrado!" por alguns instantes.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. Ao clicar no botão "Cadastrar" você será redirecionado para a rota de cadastro.
 
-### `npm test`
+### Cadastro
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Você poderá cadastrar um novo usuário no banco de dados. Será necessário preencher os campos usuário, senha e confirmação de senha. Após preencher esses dados o novo usuário será adicionado no arquivo db.json.
+2. No input com título "Procurar usuário", você poderá digitar e verificar se existe algum usuário com os caracteres iniciais que você digitou.
+   1. Caso Exista, ele será renderizado na tela.
+   2. Se nenhum usuário existir, nada acontecerá.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+3.Na terceira seção está sendo exibido todos os usuários existentes atualmente no banco de dados. Caso você efetue o cadastro de um novo usuário com sucesso, essa lista será atualizada.

@@ -7,10 +7,11 @@ import { formHandlerProps, loginSubmitFormData } from './types'
 import { userProps } from '../../types/user'
 import { loginFormSchema } from './loginFormSchema'
 import { InputError } from '../inputError'
+import { AppContainer } from '../../styles'
 
 export const Login = () => {
-  const [userExists, setUserExists] = useState(false)
-  const [errorWhenFetching, setErrorWhenFetching] = useState(false)
+  const [errorWhenFetching, setErrorWhenFetching] = useState<boolean>(false)
+  const [showUserWasFound, setShowUserWasFound] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
@@ -31,8 +32,10 @@ export const Login = () => {
       const userFound = result.data.length
 
       if (userFound) {
-        setUserExists(true)
-        return setTimeout(() => setUserExists(false), 2000)
+        setShowUserWasFound(true)
+        return setTimeout(() => {
+          setShowUserWasFound(false)
+        }, 2000)
       }
     } catch (error) {
       setErrorWhenFetching(true)
@@ -43,25 +46,27 @@ export const Login = () => {
   const handleSignUpButton = () => navigate('/signup')
 
   return (
-    <form onSubmit={handleSubmit(loginFormHandler)}>
-      <div>
+    <AppContainer>
+      <form onSubmit={handleSubmit(loginFormHandler)}>
         <div>
-          <span>Usuário</span>
-          <input type="text" {...register('username')} />
-          <span>{errors.username?.message || ''}</span>
+          <div>
+            <span>Usuário</span>
+            <input type="text" {...register('username')} />
+            <span>{errors.username?.message || ''}</span>
+          </div>
+          <div>
+            <span>Senha</span>
+            <input type="text" {...register('password')} />
+            <span>{errors.password?.message || ''}</span>
+          </div>
+          {showUserWasFound && <span>Usuário encontrado!</span>}
+          {errorWhenFetching && <InputError />}
+          <button type="submit">Entrar</button>
+          <button type="button" onClick={handleSignUpButton}>
+            Cadastrar
+          </button>
         </div>
-        <div>
-          <span>Senha</span>
-          <input type="text" {...register('password')} />
-          <span>{errors.password?.message || ''}</span>
-        </div>
-        {userExists && <span>Usuário encontrado!</span>}
-        {errorWhenFetching && <InputError />}
-        <button type="submit">Entrar</button>
-        <button type="button" onClick={handleSignUpButton}>
-          Cadastrar
-        </button>
-      </div>
-    </form>
+      </form>
+    </AppContainer>
   )
 }
