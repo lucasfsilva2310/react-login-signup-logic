@@ -12,7 +12,7 @@ function App() {
         <Route
           path="*"
           element={
-            <main style={{ padding: '1rem' }}>
+            <main>
               <p>Ops! Rota não existe :(</p>
             </main>
           }

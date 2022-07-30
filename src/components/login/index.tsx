@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNavigate } from 'react-router-dom'
 
 const loginFormSchema = yup.object().shape({
   username: yup.string().required('Este campo é obrigatório'),
@@ -18,6 +19,8 @@ type formHandlerProps = {
 }
 
 export const Login = () => {
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -51,7 +54,7 @@ export const Login = () => {
           <span>{errors.password?.message || ''}</span>
         </div>
         <button type="submit">Entrar</button>
-        <button type="button" onClick={() => console.log('Change Route')}>
+        <button type="button" onClick={() => navigate('/signup')}>
           Cadastrar
         </button>
       </div>
