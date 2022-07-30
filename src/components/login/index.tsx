@@ -1,24 +1,17 @@
-import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
-
-const loginFormSchema = yup.object().shape({
-  username: yup.string().required('Este campo é obrigatório'),
-  password: yup.string().required('Este campo é obrigatório'),
-})
-
-type loginSubmitFormData = {
-  username: string
-  password: string
-}
-
-type formHandlerProps = {
-  username: string
-  password: string
-}
+import { api } from '../../services/api'
+import { useState } from 'react'
+import { formHandlerProps, loginSubmitFormData } from './types'
+import { userProps } from '../../types/user'
+import { loginFormSchema } from './loginFormSchema'
+import { InputError } from '../inputError'
 
 export const Login = () => {
+  const [userExists, setUserExists] = useState(false)
+  const [errorWhenFetching, setErrorWhenFetching] = useState(false)
+
   const navigate = useNavigate()
 
   const {
@@ -29,14 +22,22 @@ export const Login = () => {
     resolver: yupResolver(loginFormSchema),
   })
 
-  const loginFormHandler = (data: loginSubmitFormData) => {
-    const payload = {
-      username: data.username,
-      password: data.password,
-    }
+  const loginFormHandler = async (data: loginSubmitFormData) => {
+    try {
+      const result = await api.get<userProps[]>(
+        `/users?username=${data.username}&password=${data.password}`
+      )
 
-    console.log(payload)
-    // Checar se o Usuário existe (adicionar lib testServer da rocketSeat)
+      const userFound = result.data.length
+
+      if (userFound) {
+        setUserExists(true)
+        return setTimeout(() => setUserExists(false), 2000)
+      }
+    } catch (error) {
+      setErrorWhenFetching(true)
+      return setTimeout(() => setErrorWhenFetching(false), 2000)
+    }
   }
 
   const handleSignUpButton = () => navigate('/signup')
@@ -54,6 +55,8 @@ export const Login = () => {
           <input type="text" {...register('password')} />
           <span>{errors.password?.message || ''}</span>
         </div>
+        {userExists && <span>Usuário encontrado!</span>}
+        {errorWhenFetching && <InputError />}
         <button type="submit">Entrar</button>
         <button type="button" onClick={handleSignUpButton}>
           Cadastrar
