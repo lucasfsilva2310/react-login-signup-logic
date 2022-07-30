@@ -39,6 +39,8 @@ export const Login = () => {
     // Checar se o Usuário existe (adicionar lib testServer da rocketSeat)
   }
 
+  const handleSignUpButton = () => navigate('/signup')
+
   return (
     <form onSubmit={handleSubmit(loginFormHandler)}>
       <div>
@@ -54,7 +56,7 @@ export const Login = () => {
           <span>{errors.password?.message || ''}</span>
         </div>
         <button type="submit">Entrar</button>
-        <button type="button" onClick={() => navigate('/signup')}>
+        <button type="button" onClick={handleSignUpButton}>
           Cadastrar
         </button>
       </div>
