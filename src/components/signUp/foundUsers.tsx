@@ -1,10 +1,9 @@
-import { userProps, usersListProps } from '../../types/user'
+import { userProps, usersList } from '../../types/user'
 
-export const FoundUsers = ({ users }: usersListProps) => {
+export const FoundUsers = ({ users }: usersList) => {
   return (
     <div>
       <>
-        <span>Procurar um usuário:</span>
         {users &&
           users.map((user: userProps) => {
             return (
