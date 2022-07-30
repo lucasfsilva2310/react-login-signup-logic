@@ -9,6 +9,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: '1rem' }}>
+              <p>Ops! Rota não existe :(</p>
+            </main>
+          }
+        />
       </Routes>
     </div>
   )
