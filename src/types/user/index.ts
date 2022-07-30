@@ -4,6 +4,6 @@ export type userProps = {
   password: string
 }
 
-export type usersListProps = {
+export type usersList = {
   users: userProps[]
 }
