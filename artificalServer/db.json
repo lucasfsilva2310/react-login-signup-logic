@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Luke Skywalker",
+      "password": "jedi"
+    },
+    {
+      "id": 2,
+      "username": "Darth Vader",
+      "password": "darkside"
+    },
+    {
+      "id": 3,
+      "username": "Han Solo",
+      "password": "gunner"
+    },
+    {
+      "id": 4,
+      "username": "Yoda",
+      "password": "adoy"
+    },
+    {
+      "username": "Lucas",
+      "password": "teste",
+      "id": 5
+    }
+  ]
+}
