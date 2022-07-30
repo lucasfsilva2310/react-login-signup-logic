@@ -1,4 +1,3 @@
-import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
@@ -9,16 +8,25 @@ import { FoundUsers } from './foundUsers'
 import { userProps } from '../../types/user'
 import { signUpFormSchema } from './signUpFormSchema'
 import { InputError } from '../inputError'
+import { AppContainer } from '../../styles'
+import styled from 'styled-components'
+
+const FindUserContainer = styled.div`
+  margin-top: 50px;
+  margin-bottom: 20px;
+`
 
 export const SignUp = () => {
-  const [searchInput, setSearchInput] = useState('')
-  const [foundUsers, setFoundUsers] = useState([])
-  const [allUsers, setAllUsers] = useState([])
+  const [searchInput, setSearchInput] = useState<string>('')
+  const [foundUsers, setFoundUsers] = useState<userProps[]>([])
+  const [allUsers, setAllUsers] = useState<userProps[]>([])
 
-  const [errorWhenSearchingUsers, setErrorWhenSearchingUsers] = useState(false)
+  const [errorWhenSearchingUsers, setErrorWhenSearchingUsers] =
+    useState<boolean>(false)
 
-  const [userSignUpSuccessfully, setUserSignUpSuccessfully] = useState(false)
-  const [errorWhenSignUp, setErrorWhenSignUp] = useState(false)
+  const [userSignUpSuccessfully, setUserSignUpSuccessfully] =
+    useState<boolean>(false)
+  const [errorWhenSignUp, setErrorWhenSignUp] = useState<boolean>(false)
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -28,6 +36,15 @@ export const SignUp = () => {
     }
     getAllUsers()
   }, [])
+
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const users = await api.get('/users')
+
+      setAllUsers(users.data)
+    }
+    if (userSignUpSuccessfully) getAllUsers()
+  }, [userSignUpSuccessfully])
 
   const {
     handleSubmit,
@@ -44,7 +61,7 @@ export const SignUp = () => {
     }
 
     try {
-      await api.post('/users', payload)
+      await api.post<userProps>('/users', payload)
 
       setUserSignUpSuccessfully(true)
       return setTimeout(() => setUserSignUpSuccessfully(false), 2000)
@@ -59,7 +76,7 @@ export const SignUp = () => {
 
   const handleSearchButton = async () => {
     try {
-      const result = await api.get(`/users`)
+      const result = await api.get<userProps[]>(`/users`)
 
       const filteredResult = result.data.filter((user: userProps) =>
         user.username.toLowerCase().startsWith(searchInput.toLowerCase())
@@ -73,7 +90,7 @@ export const SignUp = () => {
   }
 
   return (
-    <>
+    <AppContainer>
       <form onSubmit={handleSubmit(signUpFormHandler)}>
         <div>
           <div>
@@ -97,16 +114,15 @@ export const SignUp = () => {
       {userSignUpSuccessfully && <span>Usuário cadastrado!</span>}
       {errorWhenSignUp && <InputError />}
 
-      <div>
+      <FindUserContainer>
         <span>Procurar usuário</span>
         <input type="text" onChange={handleUserSearchInput} />
         <button onClick={handleSearchButton}>Procurar</button>
-      </div>
-
-      {errorWhenSearchingUsers && <InputError />}
-      {foundUsers && <FoundUsers users={foundUsers} />}
+        {errorWhenSearchingUsers && <InputError />}
+        {foundUsers && <FoundUsers users={foundUsers} />}
+      </FindUserContainer>
 
       <AllUsers users={allUsers} />
-    </>
+    </AppContainer>
   )
 }
