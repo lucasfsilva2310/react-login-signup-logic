@@ -8,6 +8,7 @@ import { userProps } from '../../types/user'
 import { loginFormSchema } from './loginFormSchema'
 import { InputError } from '../inputError'
 import { AppContainer } from '../../styles'
+import { showInfoMessage } from '../../utils/showInfoMessage'
 
 export const Login = () => {
   const [errorWhenFetching, setErrorWhenFetching] = useState<boolean>(false)
@@ -32,14 +33,10 @@ export const Login = () => {
       const userFound = result.data.length
 
       if (userFound) {
-        setShowUserWasFound(true)
-        return setTimeout(() => {
-          setShowUserWasFound(false)
-        }, 2000)
+        return showInfoMessage(setShowUserWasFound, 2000)
       }
     } catch (error) {
-      setErrorWhenFetching(true)
-      return setTimeout(() => setErrorWhenFetching(false), 2000)
+      showInfoMessage(setErrorWhenFetching, 2000)
     }
   }
 

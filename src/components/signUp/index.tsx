@@ -10,6 +10,7 @@ import { signUpFormSchema } from './signUpFormSchema'
 import { InputError } from '../inputError'
 import { AppContainer } from '../../styles'
 import styled from 'styled-components'
+import { showInfoMessage } from '../../utils/showInfoMessage'
 
 const FindUserContainer = styled.div`
   margin-top: 50px;
@@ -62,12 +63,9 @@ export const SignUp = () => {
 
     try {
       await api.post<userProps>('/users', payload)
-
-      setUserSignUpSuccessfully(true)
-      return setTimeout(() => setUserSignUpSuccessfully(false), 2000)
+      showInfoMessage(setUserSignUpSuccessfully, 2000)
     } catch (error) {
-      setErrorWhenSignUp(true)
-      return setTimeout(() => setErrorWhenSignUp(false), 2000)
+      showInfoMessage(setErrorWhenSignUp, 2000)
     }
   }
 
@@ -84,8 +82,7 @@ export const SignUp = () => {
 
       setFoundUsers(filteredResult)
     } catch (error) {
-      setErrorWhenSearchingUsers(true)
-      return setTimeout(() => setErrorWhenSearchingUsers(false), 2000)
+      showInfoMessage(setErrorWhenSearchingUsers, 2000)
     }
   }
 
